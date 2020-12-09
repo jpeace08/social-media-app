@@ -4,7 +4,7 @@ const checkAuth = require('../../utils/check-auth');
 
 module.exports = {
     Mutation: {
-        createComent: async (_, {postId, body}, context, info) => {
+        createComment: async (_, {postId, body}, context, info) => {
             const {username} = checkAuth(context);
 
             if(body.trim() === '') throw new UserInputError('Errors comment', {
@@ -13,8 +13,8 @@ module.exports = {
                 }
             });
 
-            const post = Post.findById(postId);
-
+            const post =  await Post.findById(postId);
+            console.log(post);
             if(post) {
                 post.comments.unshift({
                     body, 
@@ -48,7 +48,7 @@ module.exports = {
         likePost: async (_, {postId}, context, info) =>{
             const {username} = checkAuth(context);
 
-            const post = Post.findById(postId);
+            const post = await Post.findById(postId);
             if(post) {
                 //TODO: post liked, unlike
                 if(post.likes.find(like => like.username === username)) {

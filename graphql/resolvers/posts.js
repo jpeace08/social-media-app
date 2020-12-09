@@ -12,9 +12,9 @@ module.exports = {
                 throw new Error(error);
             }
         },
-        getPost: async (id) => {
+        getPost: async (_, {id}, context) => {
             try {
-                const post = await Post.findById('id');
+                const post = await Post.findById(id);
                 if(post) return post;
                 else throw new Error('Post not found!');
             } catch (error) {
@@ -26,7 +26,11 @@ module.exports = {
         createPost: async (_,{body}, context) => {
             const user = checkAuth(context);
 
-            console.log(context);
+            if(body.trim() === ''){
+                throw new Error('Post body must not be empty!');
+            }
+
+            // console.log(context);
             const newPost = new Post({
                 body, 
                 user: user.id,
