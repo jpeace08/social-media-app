@@ -42,15 +42,15 @@ module.exports = gql`
 
     type Query {
         getPosts: [Post]
-        getPost(id: ID!): Post
+        getPost(postId: ID!): Post
     }
     type Mutation {
         register(registerInput: RegisterInput): User!
         login(username: String!, password: String!): User!
         createPost(body: String!): Post
-        deletePost(id: ID!): String!
+        deletePost(postId: String!): String!
         createComment(postId: String!, body: String!): Post!
-        deleteComment(postId: String!, commentId: String!): Post!
+        deleteComment(postId: ID!, commentId: String!): Post!
         likePost(postId: String!): Post!
     }
     type Subcription {

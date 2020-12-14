@@ -13,8 +13,8 @@ module.exports = {
                 }
             });
 
-            const post =  await Post.findById(postId);
-            console.log(post);
+            const post = await Post.findById(postId);
+            
             if(post) {
                 post.comments.unshift({
                     body, 
@@ -28,7 +28,7 @@ module.exports = {
         },
         deleteComment: async (_, {postId, commentId}, context, info) => {
             const {username} = checkAuth(context);
-            const post = Post.findById(postId);
+            const post = await Post.findById(postId);
             
             if(post) {
                 const commentIndex = post.comments.findIndex (c => c.id === commentId);
@@ -52,8 +52,8 @@ module.exports = {
             if(post) {
                 //TODO: post liked, unlike
                 if(post.likes.find(like => like.username === username)) {
-                    post.likes = post.likes.filter (like => like.username !== username);
-                }
+                    post.likes = post.likes.filter (like => like  .username !== username);
+                }   
                 //TODO: not liked, like post
                 else {
                     post.likes.push ({

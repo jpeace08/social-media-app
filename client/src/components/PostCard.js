@@ -1,8 +1,12 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
 import { Card, Icon, Label, Image, Button, ButtonGroup } from 'semantic-ui-react';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
+
+import { AuthContext } from '../context/auth';
+import LikeButton from '../components/LikeButton';
+import DeleteButton from './DeleteButton';
 
 PostCard.propTypes = {
     post: PropTypes.object.isRequired,
@@ -10,9 +14,7 @@ PostCard.propTypes = {
 
 function PostCard({ post: {id, body, username, createdAt, likes, likeCount, comments, commentCount} }) {
 
-    const likePost = () => {
-
-    }
+    const { user } = useContext(AuthContext);
 
     const commentPost = () => {
 
@@ -34,14 +36,7 @@ function PostCard({ post: {id, body, username, createdAt, likes, likeCount, comm
             </Card.Content>
             <Card.Content>
                 <ButtonGroup>
-                    <Button as='div' labelPosition='right' style={{marginRight: 5}}>
-                        <Button color='teal' basic onClick={likePost}>
-                            <Icon name='heart' />
-                        </Button>
-                        <Label basic color='teal' pointing='left'>
-                            {likeCount}
-                        </Label>
-                    </Button>
+                    <LikeButton user={user} post={{id, likes, likeCount}}/>
 
                     <Button as='div' labelPosition='right'>
                         <Button color='blue' basic onClick={commentPost}>
@@ -51,7 +46,12 @@ function PostCard({ post: {id, body, username, createdAt, likes, likeCount, comm
                             {commentCount}
                         </Label>
                     </Button>
+
                 </ButtonGroup>
+
+                {user && user.username === username && (
+                    <DeleteButton postId={id}/>
+                )}
             </Card.Content>
         </Card>
     );

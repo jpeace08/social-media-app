@@ -11,7 +11,7 @@ const PostForm = () => {
         body: '',
     })
 
-    const [createPost, ] = useMutation(CREATE_POST_MUTATION, {
+    const [createPost, {error}] = useMutation(CREATE_POST_MUTATION, {
         variables: values,
         update(cache, result) {
 
@@ -38,13 +38,21 @@ const PostForm = () => {
                     name='body'
                     values={values.body}
                     onChange={onChange}
+                    error={error ? true : false}
                 />
-
+                {error && (
+                    <div className="ui error message">
+                        <ul className="list">
+                            <li>{ error.graphQLErrors[0].message}</li>
+                        </ul>
+                    </div>
+                )}
                 <Button type='submit' color='teal'>
                     Up now!
                 </Button>
             </Form.Field>
         </Form>
+
     );
 };
 
