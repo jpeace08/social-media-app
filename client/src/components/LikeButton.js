@@ -34,11 +34,11 @@ function LikeButton({user, post:{id, likes, likeCount}}) {
     }, [user, likes]);
 
     const likeButton = user ? (liked ? (
-        <Button color='teal'>
+        <Button onClick={likePost} color='teal'>
             <Icon name='heart' />
         </Button>
     ) :
-        <Button color='teal' basic >
+        <Button onClick={likePost} color='teal' basic >
             <Icon name='heart' />
         </Button>
     ) : (
@@ -48,7 +48,7 @@ function LikeButton({user, post:{id, likes, likeCount}}) {
     )
 
     return (
-        <Button onClick={likePost} as='div' labelPosition='right' style={{ marginRight: 5 }}>
+        <Button as='div' labelPosition='right' style={{ marginRight: 5 }}>
             {likeButton}
             <Label basic color='teal' pointing='left'>
                 {likeCount}
