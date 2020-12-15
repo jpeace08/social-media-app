@@ -18,7 +18,7 @@ export const FETCH_POSTS_QUERY = gql`
 `
 
 export const CREATE_POST_MUTATION = gql`
-    mutation createPost($body: ID!){
+    mutation createPost($body: String!){
         createPost(body: $body){
             id body createdAt username
             likes{
@@ -33,7 +33,7 @@ export const CREATE_POST_MUTATION = gql`
 `
 
 export const LIKE_POST_MUTATION = gql`
-    mutation likePost($postId: String!){
+    mutation likePost($postId: ID!){
         likePost(postId: $postId){
             id
             likes{
@@ -68,11 +68,23 @@ export const DELETE_POST_MUTATION = gql`
 `
 
 export const DELETE_COMMENT_MUTATION = gql`
-    mutation deleteCommnet($postId: ID!, $commentId: String!){
+    mutation deleteCommnet($postId: ID!, $commentId: ID!){
         deleteComment(postId: $postId, commentId: $commentId){
             id
             comments {
                 id username createdAt body 
+            }
+            commentCount
+        }
+    }
+`
+
+export const CREATE_COMMENT_MUTATION = gql`
+    mutation createComment($postId: ID!, $body: String!){
+        createComment(postId: $postId, body: $body) {
+            id
+            comments{
+                id createdAt username body
             }
             commentCount
         }
